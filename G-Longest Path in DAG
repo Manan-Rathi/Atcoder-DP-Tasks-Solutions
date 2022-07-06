@@ -1,0 +1,62 @@
+#include<bits/stdc++.h>
+using namespace std;
+typedef long long int              ll;
+#define  din(n)      int n;   cin>>n;
+#define dint(a,b)	int a,b; cin>>a>>b;
+#define dinl(a,b)	long long a,b; cin>>a>>b;
+#define  disp(v)  {for(auto &x:v) cout<<x<<" "; cout<<endl;}
+#define  lin(n)		 long n; cin>>n;
+#define  stn(s)      string s;   cin>>s;
+#define el endl
+#define mod 1000000007
+#define vi vector<int>
+#define vll vector<ll>
+#define pb push_back
+#define mp make_pair
+#define sortg(v) sort(v.begin(), v.end(), greater<int>())
+#define sortt(v) sort(v.begin(),v.end());
+#define rep(i,a,b) for(int i=a;i<b;i++)
+#define prn(n) cout << n << "\n"
+#define pr(n) cout << n
+#define ps(n) cout << n << " "
+#define fast ios_base::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr);
+
+int dp[100001];
+
+int dfs(int node, vector<int> adj[], vi &vis){
+	vis[node]=1;
+
+	for(auto it: adj[node]){
+		if(vis[it]!=0){
+			dp[node] = max(dp[node],1+dp[it]);
+		}
+		else {
+			dp[node] = max(dp[node],1+dfs(it,adj,vis));
+		}	
+	}
+
+	return dp[node];
+}
+
+int main(){
+	dint(n,m);
+	vi adj[n+1];
+	memset(dp,0,sizeof(dp));
+	vi vis(n+1,0);
+	for(int i=1;i<=m;i++){
+		dint(u,v);
+		adj[u].push_back(v);
+	}
+
+	for(int i=1;i<=n;i++){
+		if(!vis[i]){
+			dfs(i,adj,vis);
+		}
+	}
+	int ans=INT_MIN;
+	for(auto it: dp){
+		ans = max(ans,it);
+	}
+	cout<<ans;
+
+}

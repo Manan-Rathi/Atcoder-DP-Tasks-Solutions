@@ -1,0 +1,59 @@
+#include<bits/stdc++.h>
+using namespace std;
+typedef long long int              ll;
+#define  din(n)      int n;   cin>>n;
+#define dint(a,b)	int a,b; cin>>a>>b;
+#define dinl(a,b)	long long a,b; cin>>a>>b;
+#define  disp(v)  {for(auto &x:v) cout<<x<<" "; cout<<endl;}
+#define  lin(n)		 long n; cin>>n;
+#define  stn(s)      string s;   cin>>s;
+#define el endl
+#define mod 1000000007
+#define vi vector<int>
+#define vll vector<ll>
+#define pb push_back
+#define mp make_pair
+#define sortg(v) sort(v.begin(), v.end(), greater<int>())
+#define sortt(v) sort(v.begin(),v.end());
+#define rep(i,a,b) for(int i=a;i<b;i++)
+#define prn(n) cout << n << "\n"
+#define pr(n) cout << n
+#define ps(n) cout << n << " "
+#define fast ios_base::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr);
+
+// From {0,0} to {r-1,c-1}
+
+int main(){
+	dint(r,c);
+	char arr[r][c];
+
+	for(int i=0;i<r;i++){
+		for(int j=0;j<c;j++){
+			cin>>arr[i][j];
+		}
+	}
+
+// To reach any square that is not an obstacle, there are two ways:
+// From sq above and sq below
+
+//Here dp[i][j] shows ways to reach (i,j)
+
+	int dp[r+1][c+1];
+	memset(dp,0,sizeof(dp));
+	dp[0][0]=1;
+
+	for(int i=0;i<r;i++){
+		for(int j=0;j<c;j++){
+			if(arr[i][j]=='#'){
+				 dp[i][j]=0; //Cannot be reached
+				 continue;
+			}
+			if(i>0)dp[i][j]+=dp[i-1][j];
+			dp[i][j]%=mod;
+			if(j>0)dp[i][j]+=dp[i][j-1];
+			dp[i][j]%=mod;
+		}
+	}
+	cout<<dp[r-1][c-1];
+
+}
